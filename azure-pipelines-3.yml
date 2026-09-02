@@ -27,3 +27,4 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'docker build -t myimage .'
+    ##SOMU
