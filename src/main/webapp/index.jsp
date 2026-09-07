@@ -3,401 +3,724 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nexus — Everyday essentials, elevated</title>
+  <title>Nexus — minimalist · daily · quality</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
-    :root { --ink:#1c2521; --cream:#f8f5ef; --paper:#fffdf9; --lime:#d8f06a; --coral:#e16f50; --mist:#e9ebe5; --muted:#68716b; --line:#daddd4; --shadow:0 18px 44px rgba(27,37,32,.09); --radius:18px; }
-    * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body { margin:0; background:var(--cream); color:var(--ink); font:15px/1.5 "DM Sans",sans-serif; }
-    button,input { font:inherit; }
-    button,a { -webkit-tap-highlight-color:transparent; }
+    /* ———— reset & base ———— */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: #f6f5f2;
+      color: #191e1b;
+      font: 15px/1.6 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
     a { color:inherit; text-decoration:none; }
-    .container { width:min(1220px,calc(100% - 40px)); margin:auto; }
-    .announcement { background:var(--ink); color:#f8faf4; text-align:center; padding:9px 16px; font:12px "DM Mono",monospace; letter-spacing:.04em; }
-    .announcement b { color:var(--lime); }
-    header { position:sticky; top:0; z-index:20; background:rgba(248,245,239,.92); backdrop-filter:blur(12px); border-bottom:1px solid transparent; }
-    header.scrolled { border-color:var(--line); }
-    .nav { height:82px; display:flex; align-items:center; gap:30px; }
-    .brand { font:700 28px/1 "Playfair Display",serif; letter-spacing:-.04em; margin-right:14px; }
-    .brand span { color:var(--coral); font-style:italic; }
-    .links { display:flex; gap:24px; flex:1; }
-    .links a { font-weight:600; font-size:14px; }
-    .links a:hover { color:var(--coral); }
-    .search { display:flex; align-items:center; gap:8px; width:215px; border-bottom:1px solid var(--ink); padding:7px 0; }
-    .search input { width:100%; background:transparent; border:0; outline:0; color:var(--ink); font-size:13px; }
-    .actions { display:flex; gap:8px; }
-    .icon { display:grid; place-items:center; position:relative; width:36px; height:36px; border:0; background:transparent; cursor:pointer; border-radius:50%; color:var(--ink); }
-    .icon:hover { background:var(--mist); }
-    .count { position:absolute; top:1px; right:0; min-width:16px; height:16px; display:grid; place-items:center; padding:0 4px; border-radius:50px; background:var(--coral); color:white; font:10px "DM Mono",monospace; }
-    .menu { display:none; }
-    .hero { padding:34px 0 72px; }
-    .hero-grid { display:grid; grid-template-columns:1.05fr .95fr; min-height:555px; overflow:hidden; background:var(--paper); border-radius:var(--radius); }
-    .hero-copy { padding:clamp(38px,6vw,84px); display:flex; flex-direction:column; align-items:flex-start; justify-content:center; }
-    .eyebrow { display:flex; align-items:center; gap:9px; color:var(--coral); font:500 11px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.12em; }
-    .eyebrow::before { content:""; width:22px; height:1px; background:currentColor; }
-    h1 { max-width:570px; margin:18px 0; font:600 clamp(48px,6vw,82px)/.98 "Playfair Display",serif; letter-spacing:-.055em; }
-    h1 em { color:var(--coral); font-weight:600; }
-    .hero-copy p { max-width:430px; color:var(--muted); margin:0 0 28px; font-size:16px; }
-    .button { display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:48px; padding:0 21px; border:1px solid var(--ink); border-radius:3px; background:var(--ink); color:white; cursor:pointer; font-weight:700; transition:.2s; }
-    .button:hover { background:var(--lime); color:var(--ink); border-color:var(--lime); transform:translateY(-2px); }
-    .button.light { background:transparent; color:var(--ink); border-color:var(--line); }
-    .button.light:hover { background:var(--mist); border-color:var(--mist); }
-    .hero-art { position:relative; min-height:360px; background:#d7c9b5; overflow:hidden; }
-    .hero-art img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; mix-blend-mode:multiply; }
-    .stamp { position:absolute; left:28px; bottom:28px; width:116px; height:116px; padding:17px; display:grid; place-items:center; border-radius:50%; background:var(--lime); color:var(--ink); text-align:center; font:500 11px/1.15 "DM Mono",monospace; text-transform:uppercase; transform:rotate(-12deg); }
-    .stamp b { font:700 28px/1 "DM Sans",sans-serif; }
-    .trust { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-    .trust-item { display:flex; justify-content:center; align-items:center; gap:11px; min-height:78px; background:var(--cream); font-size:13px; font-weight:600; }
-    .trust-item i { color:var(--coral); }
-    section { padding:80px 0; }
-    .section-top { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:27px; }
-    .section-top h2 { margin:6px 0 0; font:600 clamp(32px,4vw,48px)/1 "Playfair Display",serif; letter-spacing:-.04em; }
-    .all-link { padding-bottom:4px; border-bottom:1px solid var(--ink); font-weight:700; white-space:nowrap; }
-    .all-link:hover { color:var(--coral); border-color:var(--coral); }
-    .collections { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-    .collection { min-height:340px; display:flex; align-items:end; position:relative; isolation:isolate; overflow:hidden; border-radius:var(--radius); color:white; padding:25px; background:#778379; }
-    .collection::after { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(0deg,rgba(14,23,18,.72),transparent 65%); }
-    .collection img { position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; transition:transform .5s; }
-    .collection:hover img { transform:scale(1.06); }
-    .collection h3 { margin:0 0 5px; font:600 31px/1 "Playfair Display",serif; }
-    .collection p { margin:0; color:#f5f4ef; }
-    .product-area { background:var(--ink); color:#f8f6ef; }
-    .product-area .eyebrow { color:var(--lime); }
-    .product-area .all-link { border-color:#f8f6ef; }
-    .products { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
-    .product { position:relative; background:var(--paper); color:var(--ink); border-radius:10px; overflow:hidden; }
-    .product-visual { position:relative; height:265px; background:#eceae2; overflow:hidden; }
-    .product-visual img { width:100%; height:100%; object-fit:cover; transition:transform .35s; }
-    .product:hover .product-visual img { transform:scale(1.05); }
-    .tag { position:absolute; top:12px; left:12px; padding:5px 8px; background:var(--lime); font:500 10px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.06em; }
-    .wish { position:absolute; top:8px; right:8px; width:36px; height:36px; border:0; border-radius:50%; background:rgba(255,255,255,.9); cursor:pointer; }
-    .wish.active { color:var(--coral); }
-    .product-info { padding:16px; }
-    .product-info h3 { margin:0 0 4px; font-size:15px; }
-    .product-info p { margin:0; color:var(--muted); font-size:12px; }
-    .product-bottom { display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-weight:700; }
-    .add { width:32px; height:32px; border:0; border-radius:50%; background:var(--ink); color:white; cursor:pointer; }
-    .add:hover { background:var(--coral); }
-    .promo { display:grid; grid-template-columns:1fr 1.2fr; min-height:405px; background:var(--lime); border-radius:var(--radius); overflow:hidden; }
-    .promo-copy { padding:clamp(30px,5vw,68px); display:flex; align-items:flex-start; justify-content:center; flex-direction:column; }
-    .promo-copy h2 { max-width:410px; margin:12px 0 17px; font:600 clamp(37px,4vw,58px)/1 "Playfair Display",serif; letter-spacing:-.05em; }
-    .promo-copy p { max-width:410px; margin:0 0 24px; }
-    .promo-image { min-height:280px; }
-    .promo-image img { width:100%; height:100%; object-fit:cover; }
-    .newsletter { display:flex; justify-content:space-between; align-items:center; gap:34px; padding:37px 43px; border-radius:var(--radius); background:var(--paper); }
-    .newsletter h2 { margin:5px 0 0; font:600 36px/1 "Playfair Display",serif; letter-spacing:-.04em; }
-    .email-form { display:flex; width:min(100%,440px); border-bottom:1px solid var(--ink); }
-    .email-form input { width:100%; padding:13px 0; border:0; outline:0; background:transparent; }
-    .email-form button { padding:0 0 0 16px; border:0; background:transparent; cursor:pointer; font-weight:700; }
-    footer { padding:0 0 28px; }
-    .footer-main { display:grid; grid-template-columns:2fr repeat(3,1fr); gap:35px; padding:54px 0; border-top:1px solid var(--line); }
-    .footer-main h4 { margin:0 0 13px; font-size:13px; text-transform:uppercase; letter-spacing:.08em; }
-    .footer-main a,.footer-main p { display:block; margin:0 0 7px; color:var(--muted); font-size:13px; }
-    .footer-main a:hover { color:var(--coral); }
-    .copyright { display:flex; justify-content:space-between; gap:15px; color:var(--muted); font:11px "DM Mono",monospace; }
-    .toast { position:fixed; z-index:30; right:20px; bottom:20px; transform:translateY(120px); transition:.3s; padding:13px 17px; border-radius:7px; background:var(--ink); color:white; font-weight:600; box-shadow:var(--shadow); }
-    .toast.show { transform:translateY(0); }
+    button { font:inherit; background:none; border:none; cursor:pointer; }
 
-    @media (max-width:900px) {
-      .links { display:none; }
-      .search { margin-left:auto; }
-      .hero-grid,.promo { grid-template-columns:1fr; }
-      .hero-art { min-height:350px; }
-      .collections { grid-template-columns:1fr 1fr; }
-      .products { grid-template-columns:1fr 1fr; }
-      .newsletter { align-items:flex-start; flex-direction:column; }
-      .footer-main { grid-template-columns:2fr 1fr 1fr; }
-      .footer-main > :last-child { display:none; }
+    /* ———— utility ———— */
+    .container { width: min(1240px, 100% - 40px); margin: 0 auto; }
+    .flex { display: flex; align-items: center; }
+
+    /* ———— header ———— */
+    .top-bar {
+      background: #1d231f;
+      color: #e4e7e0;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      font-weight: 400;
+      border-bottom: 1px solid #2f3631;
+    }
+    .top-bar span { color: #c5d86d; font-weight: 600; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(246, 245, 242, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    header.scrolled { border-color: #dbdbd2; }
+
+    .nav {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      font: 700 26px/1 'Outfit', sans-serif;
+      letter-spacing: -0.04em;
+    }
+    .brand i { color: #b4684b; font-weight: 400; margin-right: 2px; }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .nav-links a { padding: 4px 0; border-bottom: 2px solid transparent; transition: 0.2s; }
+    .nav-links a:hover { border-bottom-color: #b4684b; color: #b4684b; }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .actions .icon-btn {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 40px;
+      transition: 0.2s;
+      color: #1d231f;
+    }
+    .actions .icon-btn:hover { background: #e4e3db; }
+    .cart-badge {
+      position: relative;
+    }
+    .badge {
+      position: absolute;
+      top: 4px;
+      right: 2px;
+      background: #b4684b;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 40px;
+      display: grid;
+      place-items: center;
+      padding: 0 4px;
     }
 
-    @media (max-width:560px) {
-      .container { width:min(100% - 28px,1220px); }
-      .announcement { font-size:10px; }
-      .nav { height:67px; gap:5px; }
-      .brand { font-size:25px; margin-right:0; }
-      .search { width:auto; border:0; }
-      .search input { display:none; }
-      .menu { display:grid; }
-      .hero { padding:15px 0 45px; }
-      .hero-copy { padding:40px 25px 44px; }
-      .hero-art { min-height:295px; }
-      .stamp { width:94px; height:94px; font-size:9px; left:16px; bottom:16px; }
-      .stamp b { font-size:23px; }
-      .trust { grid-template-columns:1fr; }
-      .trust-item { min-height:54px; }
-      section { padding:56px 0; }
-      .collections { grid-template-columns:1fr; }
-      .collection { min-height:245px; }
-      .products { gap:10px; }
-      .product-visual { height:185px; }
-      .product-info { padding:12px; }
-      .promo-copy { padding:37px 25px; }
-      .newsletter { padding:30px 24px; }
-      .newsletter h2 { font-size:31px; }
-      .footer-main { grid-template-columns:1fr 1fr; gap:28px 15px; }
-      .footer-main > :first-child { grid-column:span 2; }
-      .copyright { flex-direction:column; }
+    /* ———— hero ———— */
+    .hero {
+      padding: 28px 0 50px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      background: #fefcf8;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.02);
+    }
+    .hero-text {
+      padding: clamp(32px, 5vw, 72px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tagline {
+      font: 500 11px 'Outfit', sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #b4684b;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .tagline::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: #b4684b;
+      display: inline-block;
+    }
+    .hero-text h1 {
+      font: 700 clamp(44px, 6vw, 78px)/1 'Outfit', sans-serif;
+      letter-spacing: -0.04em;
+      margin: 12px 0 14px;
+    }
+    .hero-text h1 i { color: #b4684b; font-weight: 400; }
+    .hero-text p {
+      max-width: 400px;
+      color: #5b625c;
+      margin-bottom: 28px;
+      font-size: 16px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #1d231f;
+      color: white;
+      padding: 0 28px;
+      height: 50px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: 0.2s;
+      border: 1px solid #1d231f;
+      width: fit-content;
+    }
+    .btn i { transition: 0.2s; }
+    .btn:hover { background: #b4684b; border-color: #b4684b; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: #1d231f;
+      border-color: #d0d0c5;
+    }
+    .btn-outline:hover { background: #ebeaE3; border-color: #b4684b; color: #1d231f; }
+
+    .hero-visual {
+      position: relative;
+      background: #dedbd2;
+      min-height: 340px;
+      overflow: hidden;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      mix-blend-mode: multiply;
+      transition: 0.5s;
+    }
+    .hero-visual:hover img { transform: scale(1.02); }
+    .badge-stamp {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: #c5d86d;
+      color: #1d231f;
+      padding: 16px 22px;
+      border-radius: 80px;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+    .badge-stamp i { font-size: 18px; }
+
+    /* ———— trust ———— */
+    .trust {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1px;
+      background: #d2d4cb;
+      border-radius: 60px;
+      overflow: hidden;
+      margin: 18px 0 30px;
+    }
+    .trust-item {
+      background: #f6f5f2;
+      padding: 16px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d332f;
+    }
+    .trust-item i { color: #b4684b; font-size: 18px; }
+
+    /* ———— section headers ———— */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 28px;
+    }
+    .section-head h2 {
+      font: 600 clamp(32px, 3.6vw, 44px)/1.1 'Outfit', sans-serif;
+      letter-spacing: -0.04em;
+      margin-top: 6px;
+    }
+    .section-head .link {
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+      padding-bottom: 2px;
+      white-space: nowrap;
+    }
+    .section-head .link:hover { border-color: #b4684b; color: #b4684b; }
+
+    section { padding: 60px 0; }
+
+    /* ———— collections ———— */
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+    }
+    .coll-card {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 290px;
+      display: flex;
+      align-items: flex-end;
+      padding: 28px;
+      background: #8b8f84;
+      isolation: isolate;
+    }
+    .coll-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(20,24,20,0.7), transparent 65%);
+      z-index: 1;
+    }
+    .coll-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transition: 0.4s;
+    }
+    .coll-card:hover img { transform: scale(1.06); }
+    .coll-card .info { position: relative; z-index: 2; color: white; }
+    .coll-card .info h3 { font: 600 28px/1 'Outfit', sans-serif; margin-bottom: 4px; }
+    .coll-card .info p { font-size: 14px; opacity: 0.9; }
+
+    /* ———— product area (dark) ———— */
+    .product-area {
+      background: #1d231f;
+      color: #f0eee9;
+    }
+    .product-area .section-head .link { color: #cdd8b0; border-color: #3a423b; }
+    .product-area .section-head .link:hover { border-color: #c5d86d; color: #c5d86d; }
+    .product-area .section-head h2 { color: #f0eee9; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 16px;
+    }
+    .product-card {
+      background: #faf9f5;
+      border-radius: 20px;
+      overflow: hidden;
+      color: #191e1b;
+      transition: 0.25s;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 18px 30px rgba(0,0,0,0.15); }
+    .product-img {
+      height: 250px;
+      background: #d8d6cd;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+    .product-card:hover .product-img img { transform: scale(1.04); }
+    .product-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: #c5d86d;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font: 600 10px 'Outfit', sans-serif;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .wish-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,0.85);
+      width: 36px;
+      height: 36px;
+      border-radius: 40px;
+      display: grid;
+      place-items: center;
+      transition: 0.2s;
+      border: 1px solid transparent;
+    }
+    .wish-btn:hover { background: white; border-color: #b4684b; }
+    .wish-btn.active { color: #b4684b; }
+
+    .product-meta {
+      padding: 18px 16px 16px;
+    }
+    .product-meta h3 { font-weight: 600; font-size: 16px; margin-bottom: 2px; }
+    .product-meta .sub { color: #5b625c; font-size: 12px; }
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+    .add-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 40px;
+      background: #1d231f;
+      color: white;
+      display: grid;
+      place-items: center;
+      transition: 0.2s;
+    }
+    .add-btn:hover { background: #b4684b; }
+
+    /* ———— promo ———— */
+    .promo-block {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #c5d86d;
+    }
+    .promo-text {
+      padding: clamp(30px, 5vw, 64px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .promo-text h2 {
+      font: 600 clamp(38px, 4.4vw, 58px)/1 'Outfit', sans-serif;
+      letter-spacing: -0.04em;
+      margin: 10px 0 14px;
+    }
+    .promo-text p { max-width: 400px; font-size: 16px; color: #1d2a1e; }
+    .promo-text .btn-outline { border-color: #1d231f; color: #1d231f; }
+    .promo-text .btn-outline:hover { background: #1d231f; color: white; }
+
+    .promo-img { min-height: 270px; background: #b5b8aa; }
+    .promo-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ———— newsletter ———— */
+    .newsletter-card {
+      background: #fefcf8;
+      border-radius: 40px;
+      padding: 42px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .newsletter-card h2 {
+      font: 600 32px/1 'Outfit', sans-serif;
+      letter-spacing: -0.04em;
+    }
+    .newsletter-card .sub { font-size: 14px; color: #5b625c; margin-top: 4px; }
+    .email-box {
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid #1d231f;
+      width: 100%;
+      max-width: 400px;
+    }
+    .email-box input {
+      width: 100%;
+      border: none;
+      padding: 14px 0;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+    }
+    .email-box button {
+      padding: 14px 0 14px 18px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ———— footer ———— */
+    footer {
+      padding: 10px 0 30px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3,1fr);
+      gap: 40px;
+      padding: 48px 0 30px;
+      border-top: 1px solid #dad9cf;
+    }
+    .footer-grid h4 { font-weight: 600; font-size: 13px; letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase; }
+    .footer-grid a, .footer-grid p {
+      display: block;
+      font-size: 13px;
+      color: #5b625c;
+      margin-bottom: 6px;
+      transition: 0.2s;
+    }
+    .footer-grid a:hover { color: #b4684b; }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #7a827c;
+      padding-top: 16px;
+      border-top: 1px solid #e3e2d9;
+    }
+
+    /* ———— toast ———— */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1d231f;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: 0.3s;
+      z-index: 99;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ———— responsive ———— */
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .collections-grid { grid-template-columns: 1fr 1fr; }
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .promo-block { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid > :first-child { grid-column: span 2; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .brand { font-size: 23px; }
+      .container { width: calc(100% - 24px); }
+      .hero-text { padding: 32px 20px; }
+      .trust { grid-template-columns: 1fr; border-radius: 30px; }
+      .collections-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .product-img { height: 180px; }
+      .newsletter-card { padding: 30px 20px; flex-direction: column; align-items: flex-start; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-grid > :first-child { grid-column: 1; }
+      .badge-stamp { font-size: 11px; padding: 10px 16px; bottom: 12px; left: 12px; }
+      .section-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .toast { right: 16px; bottom: 16px; padding: 12px 22px; font-size: 13px; }
     }
   </style>
 </head>
-
 <body>
-  <div class="announcement">
-    FREE SHIPPING ON ORDERS OVER $75 <b>—</b> EASY 30-DAY RETURNS
-  </div>
+
+  <div class="top-bar">FREE SHIPPING OVER $75 <span>·</span> 30-DAY RETURNS · DESIGNED TO LAST</div>
 
   <header id="header">
     <div class="container nav">
-      <button class="icon menu" aria-label="Open menu">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-
-      <a href="#" class="brand">nexus<span>.</span></a>
-
-      <nav class="links" aria-label="Main navigation">
-        <a href="#new">New arrivals</a>
+      <a href="#" class="brand"><i class="fa-regular fa-gem"></i>nexus</a>
+      <nav class="nav-links">
+        <a href="#new">New</a>
         <a href="#collections">Collections</a>
-        <a href="#shop">Shop all</a>
+        <a href="#shop">Shop</a>
         <a href="#journal">Journal</a>
       </nav>
-
-      <label class="search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input id="search" type="search" placeholder="Search the store">
-      </label>
-
       <div class="actions">
-        <button class="icon" aria-label="Account">
-          <i class="fa-regular fa-user"></i>
-        </button>
-        <button class="icon" aria-label="Wishlist">
-          <i class="fa-regular fa-heart"></i>
-        </button>
-        <button class="icon" id="cart" aria-label="Shopping bag">
-          <i class="fa-solid fa-bag-shopping"></i>
-          <span class="count" id="count">0</span>
+        <button class="icon-btn" aria-label="Search"><i class="fa-regular fa-magnifying-glass"></i></button>
+        <button class="icon-btn" aria-label="Account"><i class="fa-regular fa-user"></i></button>
+        <button class="icon-btn cart-badge" id="cartBtn">
+          <i class="fa-regular fa-bag-shopping"></i>
+          <span class="badge" id="cartCount">0</span>
         </button>
       </div>
     </div>
   </header>
 
   <main>
+    <!-- hero -->
     <section class="hero">
       <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">The autumn edit / 2026</div>
-          <h1>Objects for a <em>well-lived</em> life.</h1>
-          <p>Considered essentials for the spaces you make, the journeys you take, and the everyday moments in between.</p>
-          <a class="button" href="#new">
-            Shop new arrivals <i class="fa-solid fa-arrow-right"></i>
-          </a>
+        <div class="hero-text">
+          <div class="tagline">autumn 2026</div>
+          <h1>Everyday <i>elevated</i></h1>
+          <p>Quietly considered goods for the home, the journey, and the moments between.</p>
+          <a href="#new" class="btn">Discover <i class="fa-regular fa-arrow-right"></i></a>
         </div>
-
-        <div class="hero-art">
-          <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1100&q=85" alt="Woman in an olive jacket">
-          <div class="stamp">up to <b>30%</b> off selected styles</div>
+        <div class="hero-visual">
+          <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1100&q=85" alt="minimal style">
+          <div class="badge-stamp"><i class="fa-regular fa-star"></i> up to 30% off</div>
         </div>
       </div>
     </section>
 
+    <!-- trust -->
     <div class="container trust">
-      <div class="trust-item"><i class="fa-solid fa-truck-fast"></i> Free shipping over $75</div>
-      <div class="trust-item"><i class="fa-solid fa-box-open"></i> Easy 30-day returns</div>
-      <div class="trust-item"><i class="fa-regular fa-circle-check"></i> Designed to last</div>
+      <div class="trust-item"><i class="fa-regular fa-truck"></i> free shipping over $75</div>
+      <div class="trust-item"><i class="fa-regular fa-rotate-left"></i> easy returns</div>
+      <div class="trust-item"><i class="fa-regular fa-clock"></i> built to last</div>
     </div>
 
-    <section class="container" id="collections">
-      <div class="section-top">
-        <div>
-          <div class="eyebrow">Curated for you</div>
-          <h2>Explore the collection</h2>
-        </div>
-        <a class="all-link" href="#shop">View all collections</a>
-      </div>
-
-      <div class="collections">
-        <a class="collection" href="#shop">
-          <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80" alt="Women's clothing">
-          <div>
-            <h3>For her</h3>
-            <p>Relaxed silhouettes, thoughtful details</p>
-          </div>
-        </a>
-
-        <a class="collection" href="#shop">
-          <img src="https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?auto=format&fit=crop&w=800&q=80" alt="Men's clothing">
-          <div>
-            <h3>For him</h3>
-            <p>Made for every day, made well</p>
-          </div>
-        </a>
-
-        <a class="collection" href="#shop">
-          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" alt="Watch and accessories">
-          <div>
-            <h3>Small things</h3>
-            <p>Gifts, objects, and finishing touches</p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section class="product-area" id="new">
+    <!-- collections -->
+    <section id="collections">
       <div class="container">
-        <div class="section-top">
-          <div>
-            <div class="eyebrow">Just landed</div>
-            <h2>New in store</h2>
-          </div>
-          <a class="all-link" href="#shop">Shop everything</a>
+        <div class="section-head">
+          <div><div class="tagline">curated</div><h2>Explore collections</h2></div>
+          <a href="#shop" class="link">View all <i class="fa-regular fa-arrow-right"></i></a>
         </div>
-
-        <div class="products" id="products"></div>
-      </div>
-    </section>
-
-    <section class="container">
-      <div class="promo">
-        <div class="promo-copy">
-          <div class="eyebrow">Nexus home</div>
-          <h2>Bring a little calm home.</h2>
-          <p>Shape a slower, softer everyday with pieces made to live beautifully.</p>
-          <a class="button light" href="#shop">
-            Explore homeware <i class="fa-solid fa-arrow-right"></i>
+        <div class="collections-grid">
+          <a class="coll-card" href="#shop">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80" alt="her">
+            <div class="info"><h3>For her</h3><p>effortless silhouettes</p></div>
+          </a>
+          <a class="coll-card" href="#shop">
+            <img src="https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?auto=format&fit=crop&w=800&q=80" alt="him">
+            <div class="info"><h3>For him</h3><p>daily essentials</p></div>
+          </a>
+          <a class="coll-card" href="#shop">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" alt="objects">
+            <div class="info"><h3>Small things</h3><p>objects & gifts</p></div>
           </a>
         </div>
+      </div>
+    </section>
 
-        <div class="promo-image">
-          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1100&q=85" alt="Warm living room interior">
+    <!-- products -->
+    <section class="product-area" id="new">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="tagline" style="color:#c5d86d;">just landed</div><h2>New in store</h2></div>
+          <a href="#shop" class="link">Shop all <i class="fa-regular fa-arrow-right"></i></a>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <!-- promo -->
+    <section>
+      <div class="container promo-block">
+        <div class="promo-text">
+          <div class="tagline">home edit</div>
+          <h2>Bring calm home</h2>
+          <p>Slow, considered pieces for every room. Designed to live beautifully.</p>
+          <a href="#shop" class="btn btn-outline">Explore home <i class="fa-regular fa-arrow-right"></i></a>
+        </div>
+        <div class="promo-img">
+          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1100&q=85" alt="warm interior">
         </div>
       </div>
     </section>
 
-    <section class="container" id="journal">
-      <div class="newsletter">
+    <!-- newsletter -->
+    <section id="journal">
+      <div class="container newsletter-card">
         <div>
-          <div class="eyebrow">A note from us</div>
-          <h2>Good things, in your inbox.</h2>
+          <div class="tagline" style="color:#b4684b;">notes</div>
+          <h2>Good things, in your inbox</h2>
+          <div class="sub">No spam, just quality.</div>
         </div>
-
-        <form class="email-form" id="emailForm">
-          <input type="email" required placeholder="Your email address">
-          <button type="submit">
-            Subscribe <i class="fa-solid fa-arrow-right"></i>
-          </button>
+        <form class="email-box" id="emailForm">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit">Subscribe <i class="fa-regular fa-arrow-right"></i></button>
         </form>
       </div>
     </section>
   </main>
 
   <footer class="container">
-    <div class="footer-main">
+    <div class="footer-grid">
       <div>
-        <a href="#" class="brand">nexus<span>.</span></a>
-        <p style="max-width:230px;margin-top:14px">Slow down. Choose better. Find something you’ll keep.</p>
+        <a href="#" class="brand"><i class="fa-regular fa-gem"></i>nexus</a>
+        <p style="margin-top:12px;max-width:240px;">Slow down. Choose better. Keep forever.</p>
       </div>
-
-      <div>
-        <h4>Shop</h4>
-        <a href="#new">New arrivals</a>
-        <a href="#shop">Clothing</a>
-        <a href="#shop">Home & living</a>
-        <a href="#shop">Gifts</a>
-      </div>
-
-      <div>
-        <h4>Help</h4>
-        <a href="#">Shipping & returns</a>
-        <a href="#">Care guide</a>
-        <a href="#">Contact</a>
-        <a href="#">FAQs</a>
-      </div>
-
-      <div>
-        <h4>Follow</h4>
-        <a href="#">Instagram</a>
-        <a href="#">Pinterest</a>
-        <a href="#">TikTok</a>
-      </div>
+      <div><h4>Shop</h4><a href="#new">New</a><a href="#shop">Clothing</a><a href="#shop">Home</a><a href="#shop">Gifts</a></div>
+      <div><h4>Help</h4><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Care</a><a href="#">FAQs</a></div>
+      <div><h4>Connect</h4><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a></div>
     </div>
-
-    <div class="copyright">
-      <span>© 2026 NEXUS GOODS</span>
-      <span>PRIVACY &nbsp; TERMS</span>
+    <div class="footer-bottom">
+      <span>© 2026 NEXUS</span>
+      <span>PRIVACY · TERMS</span>
     </div>
   </footer>
 
-  <div class="toast" id="toast" role="status">Added to your bag.</div>
+  <div class="toast" id="toast" role="status">✓ added to bag</div>
 
   <script>
-    const items = [
-      ['Classic Crewneck', 'Soft organic cotton', '89', 'https://images.unsplash.com/photo-1627225924765-552d49cf47ad?auto=format&fit=crop&w=700&q=80', 'New'],
-      ['Weekender Bag', 'Waxed canvas & leather', '180', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80', ''],
-      ['Ceramic Pour Set', 'Hand-finished stoneware', '68', 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=700&q=80', 'Best seller'],
-      ['Field Watch', 'Brushed steel, olive strap', '215', 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=700&q=80', '']
-    ];
+    (function() {
+      // product data
+      const items = [
+        ['Classic Crewneck', '100% organic cotton', '89', 'https://images.unsplash.com/photo-1627225924765-552d49cf47ad?auto=format&fit=crop&w=700&q=80', 'New'],
+        ['Weekender Bag', 'waxed canvas & leather', '180', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80', ''],
+        ['Pour-over set', 'handmade stoneware', '68', 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=700&q=80', 'best seller'],
+        ['Field watch', 'steel, olive strap', '215', 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=700&q=80', '']
+      ];
 
-    const products = document.querySelector('#products');
-    let cart = 0;
+      const grid = document.getElementById('productsGrid');
+      let cart = 0;
 
-    products.innerHTML = items.map((p, i) => `
-      <article class="product">
-        <div class="product-visual">
-          <img src="${p[3]}" alt="${p[0]}">
-          ${p[4] ? `<span class="tag">${p[4]}</span>` : ''}
-          <button class="wish" aria-label="Save ${p[0]}">
-            <i class="fa-regular fa-heart"></i>
-          </button>
-        </div>
-
-        <div class="product-info">
-          <h3>${p[0]}</h3>
-          <p>${p[1]}</p>
-
-          <div class="product-bottom">
-            <span>$${p[2]}</span>
-            <button class="add" data-item="${i}" aria-label="Add ${p[0]} to bag">
-              <i class="fa-solid fa-plus"></i>
-            </button>
+      grid.innerHTML = items.map((p, idx) => `
+        <article class="product-card">
+          <div class="product-img">
+            <img src="${p[3]}" alt="${p[0]}">
+            ${p[4] ? `<span class="product-tag">${p[4]}</span>` : ''}
+            <button class="wish-btn" data-wish="${idx}" aria-label="wishlist"><i class="fa-regular fa-heart"></i></button>
           </div>
-        </div>
-      </article>
-    `).join('');
+          <div class="product-meta">
+            <h3>${p[0]}</h3>
+            <div class="sub">${p[1]}</div>
+            <div class="product-footer">
+              <span>$${p[2]}</span>
+              <button class="add-btn" data-add="${idx}" aria-label="add to bag"><i class="fa-regular fa-plus"></i></button>
+            </div>
+          </div>
+        </article>
+      `).join('');
 
-    const toast = document.querySelector('#toast');
-    let timer;
+      // wishlist toggle
+      document.querySelectorAll('.wish-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          this.classList.toggle('active');
+          const icon = this.querySelector('i');
+          if (this.classList.contains('active')) {
+            icon.className = 'fa-solid fa-heart';
+          } else {
+            icon.className = 'fa-regular fa-heart';
+          }
+        });
+      });
 
-    document.querySelectorAll('.add').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelector('#count').textContent = ++cart;
+      // add to cart
+      const toast = document.getElementById('toast');
+      let timer;
+
+      document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          cart++;
+          document.getElementById('cartCount').textContent = cart;
+          toast.textContent = '✓ added to bag';
+          toast.classList.add('show');
+          clearTimeout(timer);
+          timer = setTimeout(() => toast.classList.remove('show'), 1600);
+        });
+      });
+
+      // newsletter
+      document.getElementById('emailForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        this.innerHTML = '<span style="font-weight:600;">✨ you’re on the list</span>';
+      });
+
+      // header scroll
+      window.addEventListener('scroll', () => {
+        document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
+      });
+
+      // cart button (just for demo)
+      document.getElementById('cartBtn').addEventListener('click', function() {
+        toast.textContent = '🛒 cart: ' + cart + ' items';
         toast.classList.add('show');
-
         clearTimeout(timer);
         timer = setTimeout(() => toast.classList.remove('show'), 1800);
       });
-    });
-
-    document.querySelectorAll('.wish').forEach(button => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('active');
-        button.innerHTML = `
-          <i class="fa-${button.classList.contains('active') ? 'solid' : 'regular'} fa-heart"></i>
-        `;
-      });
-    });
-
-    document.querySelector('#emailForm').addEventListener('submit', event => {
-      event.preventDefault();
-      event.currentTarget.innerHTML = '<strong>Thank you — you’re on the list.</strong>';
-    });
-
-    addEventListener('scroll', () => {
-      document.querySelector('#header').classList.toggle('scrolled', scrollY > 15);
-    });
+    })();
   </script>
 </body>
 </html>
